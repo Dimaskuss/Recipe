@@ -10,37 +10,36 @@ import java.util.Map;
 @Service
 public class RecipeServiceImpl implements RecipeServiceInterface {
     private static int id = 1;
-    private static Map<Integer, Recipe> recipeMap = new HashMap<>();
-
+    private  final Map<Integer, Recipe> RECIPE_MAP = new HashMap<>();
 
     @Override
     public int addRecipe(Recipe recipe) {
-        recipeMap.put(id, recipe);
+        RECIPE_MAP.put(id, recipe);
         return id++;
     }
 
     @Override
     public Recipe getRecipe(int id) {
-        if (recipeMap.containsKey(id)) {
-            return recipeMap.get(id);
+        if (RECIPE_MAP.containsKey(id)) {
+            return RECIPE_MAP.get(id);
         }
         return null;
     }
 
     @Override
     public Recipe editRecipe(int id, Recipe newRecipe) {
-        if (recipeMap.containsKey(id)) {
-            recipeMap.put(id, newRecipe);
-            return recipeMap.get(id);
+        if (RECIPE_MAP.containsKey(id)) {
+            RECIPE_MAP.put(id, newRecipe);
+            return RECIPE_MAP.get(id);
         }
         return null;
     }
 
     @Override
     public boolean deleteRecipe(int id) {
-        for (Recipe recipe : recipeMap.values()) {
-            if (recipeMap.containsKey(id)) {
-                recipeMap.remove(id);
+        for (Recipe recipe : RECIPE_MAP.values()) {
+            if (RECIPE_MAP.containsKey(id)) {
+                RECIPE_MAP.remove(id);
                 return true;
             }
 
@@ -50,15 +49,15 @@ public class RecipeServiceImpl implements RecipeServiceInterface {
 
     @Override
     public Collection<Recipe> getAllRecipe() {
-        if (recipeMap.isEmpty()) {
+        if (RECIPE_MAP.isEmpty()) {
             return null;
         }
-        return recipeMap.values();
+        return RECIPE_MAP.values();
     }
 
     @Override
     public boolean isEmpty() {
-        if (recipeMap.isEmpty()) {
+        if (RECIPE_MAP.isEmpty()) {
             return true;
         }
         return false;
