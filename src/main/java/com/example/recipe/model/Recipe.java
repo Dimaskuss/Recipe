@@ -12,8 +12,8 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 public class Recipe {
-    private String name ;
+    private String name;
     private int cookingTime;
-    private List<Ingredient> ingredientList  ;
-    private Set<String> steps  ;
+    private List<Ingredient> ingredientList;
+    private Set<String> steps;
 }
