@@ -22,7 +22,7 @@ public interface RecipeServiceInterface {
 
     Collection<Recipe> getAllRecipe();
 
-    boolean isEmpty();
+
 
 
 }

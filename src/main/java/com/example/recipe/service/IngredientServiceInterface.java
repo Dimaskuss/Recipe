@@ -15,5 +15,5 @@ public interface IngredientServiceInterface {
 
     Collection getAllIngredients();
 
-    boolean isEmpty();
+
 }

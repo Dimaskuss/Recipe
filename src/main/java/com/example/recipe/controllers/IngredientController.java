@@ -1,18 +1,15 @@
 package com.example.recipe.controllers;
 
-import com.example.recipe.exception.NullException;
 import com.example.recipe.model.Ingredient;
 import com.example.recipe.service.IngredientServiceInterface;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-
 @RestController
 @RequestMapping("/ingredient")
 public class IngredientController {
 
-    private IngredientServiceInterface ingredientServiceInterface;
+    private final IngredientServiceInterface ingredientServiceInterface;
 
     public IngredientController(IngredientServiceInterface ingredientServiceInterface) {
         this.ingredientServiceInterface = ingredientServiceInterface;
@@ -43,22 +40,22 @@ public class IngredientController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteIngredient(@PathVariable Integer id) throws NullException {
+    public ResponseEntity<Void> deleteIngredient(@PathVariable Integer id) {
 
         if (ingredientServiceInterface.deleteIngredient(id)) {
             return ResponseEntity.ok().build();
         } else {
-            throw new NullException("нет такого ингридеиента");
 
+            return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Collection<Ingredient>> getAllIngredients() {
-        if (!ingredientServiceInterface.isEmpty()) {
+    public ResponseEntity getAllIngredients() {
+
             return ResponseEntity.ok(ingredientServiceInterface.getAllIngredients());
         }
-        return ResponseEntity.notFound().build();
 
-    }
+
+
 }

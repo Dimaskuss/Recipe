@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 @RestController
-@RequestMapping("/pecipe")
+@RequestMapping("/recipe")
 public class RecipeController {
-    private RecipeServiceInterface recipeServiceInterface;
+    private final RecipeServiceInterface recipeServiceInterface;
 
     public RecipeController(RecipeServiceInterface recipeServiceInterface) {
         this.recipeServiceInterface = recipeServiceInterface;
@@ -42,24 +42,23 @@ public class RecipeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRecipe(@PathVariable Integer id) throws NullException {
+    public ResponseEntity<Void> deleteRecipe(@PathVariable Integer id) {
 
         if (recipeServiceInterface.deleteRecipe(id)) {
             return ResponseEntity.ok().build();
         } else {
-            throw new NullException("нет такого номера ингридеиента");
-
+            return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("/all")
     public ResponseEntity<Collection<Recipe>> getAllRecipe() {
-        if (!recipeServiceInterface.isEmpty()) {
+
             return ResponseEntity.ok(recipeServiceInterface.getAllRecipe());
         }
-        return ResponseEntity.notFound().build();
 
-    }
+
+
 }
 
 
