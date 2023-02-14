@@ -49,9 +49,7 @@ public class RecipeServiceImpl implements RecipeServiceInterface {
 
     @Override
     public Collection<Recipe> getAllRecipe() {
-        if (recipeMap.isEmpty()) {
-            return null;
-        }
+
         return recipeMap.values();
     }
 

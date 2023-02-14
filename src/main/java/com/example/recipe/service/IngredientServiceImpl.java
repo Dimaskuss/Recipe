@@ -50,9 +50,7 @@ public class IngredientServiceImpl implements IngredientServiceInterface {
 
     @Override
     public Collection<Ingredient> getAllIngredients() {
-        if (ingredientMap.isEmpty()) {
-            return null;
-        }
+
         return ingredientMap.values();
     }
 
