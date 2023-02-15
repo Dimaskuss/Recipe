@@ -17,9 +17,10 @@ import java.util.Map;
 public class RecipeServiceImpl implements RecipeServiceInterface {
     private  int id = 1;
     private Map<Integer, Recipe> recipeMap = new HashMap<>();
-    private final FileRecipeServiceImpl fileRecipeService;
+    private final FileRecipeService fileRecipeService;
 
-    public RecipeServiceImpl(FileRecipeServiceImpl fileRecipeService) {
+
+    public RecipeServiceImpl(FileRecipeService fileRecipeService) {
         this.fileRecipeService = fileRecipeService;
     }
 
@@ -74,7 +75,7 @@ public class RecipeServiceImpl implements RecipeServiceInterface {
             String json = new ObjectMapper().writeValueAsString(recipeMap);
             fileRecipeService.saveToFile(json);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -85,13 +86,14 @@ public class RecipeServiceImpl implements RecipeServiceInterface {
             recipeMap = new ObjectMapper().readValue(json, new TypeReference<HashMap<Integer, Recipe>>() {
             });
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
     }
 
     @PostConstruct
     private void init() {
+
         fileRecipeService.createFile();
         addRecipe(new Recipe("Defolt",0,new ArrayList<>(),new ArrayList<>()));
         readFromFile();

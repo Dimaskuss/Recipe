@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 @Service
-public class FileIngredientServiceImpl implements FileService {
+public class FileIngredientServiceImpl implements FileIngredientService {
 
     @Value("${path.to.data.file}")
     private String dataFilePath;
@@ -42,14 +42,15 @@ public class FileIngredientServiceImpl implements FileService {
         }
 
     }
-
+@Override
     public void createFile(){
 
             try {
-                if(!Files.exists(Path.of(dataFilePath,dataIngredientFileName)))
-                Files.createFile(Path.of(dataFilePath,dataIngredientFileName));
+                if(!Files.exists(Path.of(dataFilePath,dataIngredientFileName))) {
+                    Files.createFile(Path.of(dataFilePath, dataIngredientFileName));
+                }
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
     }

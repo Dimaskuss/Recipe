@@ -17,10 +17,10 @@ public class IngredientServiceImpl implements IngredientServiceInterface {
     private Map<Integer, Ingredient> ingredientMap = new HashMap<>();
     private int id = 1;
 
-    private final FileIngredientServiceImpl filesServiceInterface;
+    private final FileIngredientService filesServiceInterface;
 
 
-    public IngredientServiceImpl(FileIngredientServiceImpl filesServiceInterface) {
+    public IngredientServiceImpl(FileIngredientService filesServiceInterface) {
 
         this.filesServiceInterface = filesServiceInterface;
     }
@@ -76,7 +76,7 @@ public class IngredientServiceImpl implements IngredientServiceInterface {
             String json = new ObjectMapper().writeValueAsString(ingredientMap);
             filesServiceInterface.saveToFile(json);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -87,7 +87,7 @@ public class IngredientServiceImpl implements IngredientServiceInterface {
             ingredientMap = new ObjectMapper().readValue(json, new TypeReference<HashMap<Integer, Ingredient>>() {
             });
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
     }
@@ -95,7 +95,7 @@ public class IngredientServiceImpl implements IngredientServiceInterface {
     @PostConstruct
     private void init() {
         filesServiceInterface.createFile();
-        addIngredient(new Ingredient("Defolt",0,"Defolt"));
+        addIngredient(new Ingredient("Defolt", 0, "Defolt"));
         readFromFile();
 
     }
