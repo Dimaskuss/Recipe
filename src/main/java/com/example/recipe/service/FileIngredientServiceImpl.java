@@ -3,6 +3,7 @@ package com.example.recipe.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -31,8 +32,8 @@ public class FileIngredientServiceImpl implements FileIngredientService {
             throw new RuntimeException(e);
         }
     }
-
-    private boolean cleanDataFile() {
+@Override
+public boolean cleanDataFile() {
         try {
             Files.deleteIfExists(Path.of(dataFilePath,dataIngredientFileName));
             Files.createFile(Path.of(dataFilePath,dataIngredientFileName));
@@ -53,5 +54,10 @@ public class FileIngredientServiceImpl implements FileIngredientService {
                 e.printStackTrace();
             }
         }
+    @Override
+    public File gtDataFile() {
+        return new File(dataFilePath + "/" + dataIngredientFileName);
+
+    }
     }
 
