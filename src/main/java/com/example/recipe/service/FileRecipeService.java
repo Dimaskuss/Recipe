@@ -1,6 +1,7 @@
 package com.example.recipe.service;
 
 import java.io.File;
+import java.nio.file.Path;
 
 public interface FileRecipeService {
     boolean cleanDataFile();
@@ -13,5 +14,7 @@ public interface FileRecipeService {
     String readFromFile();
 
     File gtDataFile();
+
+    Path createTempFile(String suffix);
 }
 

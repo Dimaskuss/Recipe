@@ -1,10 +1,12 @@
 package com.example.recipe.service;
 
 
+import com.example.recipe.exception.ValidationException;
 import com.example.recipe.model.Ingredient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -13,21 +15,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@AllArgsConstructor
 public class IngredientServiceImpl implements IngredientServiceInterface {
     private Map<Integer, Ingredient> ingredientMap = new HashMap<>();
     private int id = 1;
 
     private final FileIngredientService filesServiceInterface;
-
-
-    public IngredientServiceImpl(FileIngredientService filesServiceInterface) {
-
-        this.filesServiceInterface = filesServiceInterface;
-    }
+    private final ValidationService validationService;
 
 
     @Override
-    public int addIngredient(Ingredient ingredient) {
+    public int addIngredient(Ingredient ingredient) throws ValidationException {
+        if (!validationService.validate(ingredient)) {
+            throw new ValidationException(ingredient.toString());
+        }
         ingredientMap.put(id, ingredient);
         saveToFile();
         return id++;
@@ -44,7 +45,7 @@ public class IngredientServiceImpl implements IngredientServiceInterface {
 
     @Override
     public Ingredient editIngredient(int id, Ingredient newIngredient) {
-        if (ingredientMap.containsKey(id)) {
+        if (ingredientMap.containsKey(id) && validationService.validate(newIngredient)) {
             ingredientMap.put(id, newIngredient);
             saveToFile();
             return ingredientMap.get(id);
@@ -94,8 +95,8 @@ public class IngredientServiceImpl implements IngredientServiceInterface {
 
     @PostConstruct
     private void init() {
-        filesServiceInterface.createFile();
-        addIngredient(new Ingredient("Defolt", 0, "Defolt"));
+//        filesServiceInterface.createFile();
+//        addIngredient(new Ingredient("Defolt", 0, "Defolt"));
         readFromFile();
 
     }

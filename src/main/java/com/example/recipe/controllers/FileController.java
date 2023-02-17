@@ -67,7 +67,7 @@ public class FileController {
 
             @ApiResponse(
                     responseCode = "404",
-                    description = "Файл нельзы загрузить"
+                    description = "Файл нельзя загрузить"
             )
     })
     @PostMapping(value = "/importrecipe", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

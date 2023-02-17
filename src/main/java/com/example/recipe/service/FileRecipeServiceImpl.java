@@ -17,8 +17,6 @@ public class FileRecipeServiceImpl implements FileRecipeService {
 
     @Override
     public boolean saveToFile(String json) {
-
-
         try {
             cleanDataFile();
             Files.writeString(Path.of(dataFilePath, dataRecipeFileName), json);
@@ -66,6 +64,17 @@ public class FileRecipeServiceImpl implements FileRecipeService {
         return new File(dataFilePath + "/" + dataRecipeFileName);
 
     }
+
+    @Override
+    public Path createTempFile(String suffix) {
+        try {
+            return Files.createTempFile(Path.of(dataFilePath), "tempFile", suffix);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 }
 
 

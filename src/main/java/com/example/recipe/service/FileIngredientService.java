@@ -1,6 +1,7 @@
 package com.example.recipe.service;
 
 import java.io.File;
+import java.nio.file.Path;
 
 public interface FileIngredientService {
 
@@ -13,4 +14,6 @@ public interface FileIngredientService {
     void createFile();
 
     File gtDataFile();
+
+
 }

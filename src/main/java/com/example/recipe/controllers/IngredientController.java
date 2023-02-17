@@ -1,5 +1,6 @@
 package com.example.recipe.controllers;
 
+import com.example.recipe.exception.ValidationException;
 import com.example.recipe.model.Ingredient;
 import com.example.recipe.service.IngredientServiceInterface;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,14 +29,14 @@ public class IngredientController {
                     description = "Ингредиент добавлен"
             ),
             @ApiResponse(
-                    responseCode = "404",
-                    description = "такого действия нет в веб-приложении"
+                    responseCode = "400",
+                    description = "Ошибка введенных значений"
             )
 
 
     })
     @PostMapping
-    public ResponseEntity<Integer> addIngredient(@RequestBody Ingredient ingredient) {
+    public ResponseEntity<Integer> addIngredient(@RequestBody Ingredient ingredient) throws ValidationException {
         int id = ingredientServiceInterface.addIngredient(ingredient);
         return ResponseEntity.ok(id);
     }
@@ -47,18 +48,14 @@ public class IngredientController {
                     description = "Ингредиент найден"
             ),
             @ApiResponse(
-                    responseCode = "400",
-                    description = "Неправильный номер ингридиента"
-            ),
-            @ApiResponse(
                     responseCode = "404",
-                    description = "Введено неправильное значение"
+                    description = "Неправильный номер ингридиента"
             )
     })
     @GetMapping("/{id}")
     public ResponseEntity<Ingredient> getIngredientForId(@PathVariable int id) {
         Ingredient ingredient = ingredientServiceInterface.getIngredient(id);
-        if (ObjectUtils.isEmpty(ingredient) ) {
+        if (ObjectUtils.isEmpty(ingredient)) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(ingredient);
@@ -72,18 +69,18 @@ public class IngredientController {
             ),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Неправильный номер ингридиента"
+                    description = "Ошибка введенных значений"
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Введено неправильное значение"
+                    description = "Неправильный номер ингридиента"
             )
     })
 
     @PutMapping("/{id}")
     public ResponseEntity<Ingredient> editIngredient(@PathVariable int id, @RequestBody Ingredient newIngredient) {
         Ingredient ingredient = ingredientServiceInterface.editIngredient(id, newIngredient);
-        if (ObjectUtils.isEmpty(ingredient) ) {
+        if (ObjectUtils.isEmpty(ingredient)) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(ingredient);
@@ -95,13 +92,10 @@ public class IngredientController {
                     responseCode = "200",
                     description = "Ингредиент удален"
             ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Неправильный номер ингридиента"
-            ),
+
             @ApiResponse(
                     responseCode = "404",
-                    description = "Введено неправильное значение"
+                    description = "Введен неправильный номер"
             )
     })
     @DeleteMapping("/{id}")
@@ -120,14 +114,9 @@ public class IngredientController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Все игредиенты нашлись"
-            ),
 
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Введено неправильное значение"
             )
     })
-
     @GetMapping("/")
     public ResponseEntity getAllIngredients() {
 

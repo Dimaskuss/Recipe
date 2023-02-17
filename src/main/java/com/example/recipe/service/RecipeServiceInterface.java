@@ -1,18 +1,16 @@
 package com.example.recipe.service;
 
-import com.example.recipe.exception.NullException;
-import com.example.recipe.model.Ingredient;
+import com.example.recipe.exception.ValidationException;
 import com.example.recipe.model.Recipe;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Collection;
 
 public interface RecipeServiceInterface {
 
 
-    int addRecipe(Recipe recipe);
+    Integer addRecipe(Recipe recipe) throws ValidationException;
 
     Recipe getRecipe(int id);
 
@@ -23,6 +21,5 @@ public interface RecipeServiceInterface {
     Collection<Recipe> getAllRecipe();
 
 
-
-
+    Path createRecipeBook() throws IOException;
 }
